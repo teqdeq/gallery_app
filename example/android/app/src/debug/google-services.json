@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1007486013460",
+    "project_id": "museumapp-418300",
+    "storage_bucket": "museumapp-418300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007486013460:android:aaa3f5fb559ee186279701",
+        "android_client_info": {
+          "package_name": "com.example.flutter_opencv_plugin_example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvDtc5GuBFUAh4DyIZjbx7WVAgwgIYYTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
