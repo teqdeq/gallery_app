@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import '../services/firebase_storage_service.dart';
 import '../services/opencv_service.dart';
 import 'image_preview.dart';
@@ -15,7 +17,31 @@ class _FirebaseImageListState extends State<FirebaseImageList> {
   @override
   void initState() {
     super.initState();
-    fetchImagesAndComputeFeatures();
+    clearStartupDirectories().then((_) => fetchImagesAndComputeFeatures());
+  }
+
+  Future<void> clearStartupDirectories() async {
+    final tempDir = await getTemporaryDirectory();
+    await clearDirectory(tempDir);
+
+    final appDir = await getApplicationDocumentsDirectory();
+    final descriptorDir = Directory('${appDir.path}/descriptors');
+    if (await descriptorDir.exists()) {
+      await clearDirectory(descriptorDir);
+    }
+  }
+
+  Future<void> clearDirectory(Directory dir) async {
+    try {
+      final files = dir.listSync(); // List all files and folders
+      for (final file in files) {
+        await file.delete(
+            recursive: true); // Recursively delete files and folders
+      }
+      print('Directory cleared: ${dir.path}');
+    } catch (e) {
+      print('Error clearing directory: ${e.toString()}');
+    }
   }
 
   Future<void> fetchImagesAndComputeFeatures() async {

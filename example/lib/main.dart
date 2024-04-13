@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         '/demo': (context) =>
             TicketFoldDemo(), // Assuming you want to navigate here directly sometimes
         '/matching_screen': (context) =>
-            MatchingScreen(), // Replace with your matching screen widget
+            CameraScreen(), // Replace with your matching screen widget
         '/collection_screen': (context) =>
             CollectionScreen(), // Replace with your collection screen widget
         '/confirmation_screen': (context) => ConfirmationScreen(
