@@ -12,8 +12,7 @@ class FirebaseService {
           .doc(imageId)
           .get();
 
-      if (imageSnapshot.exists &&
-          imageSnapshot.data()!.containsKey('imageUrl')) {
+      if (imageSnapshot.exists && (imageSnapshot.data()! as Map)['imageUrl'] != null ) {
         return imageSnapshot.get('imageUrl');
       } else {
         throw 'Image not found';

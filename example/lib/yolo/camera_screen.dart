@@ -39,7 +39,6 @@ class _CameraScreenState extends State<CameraScreen> {
   int nullDetectionCount = 0;
 
 
-
   @override
   void initState() {
     super.initState();
