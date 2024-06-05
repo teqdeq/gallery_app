@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_opencv_plugin/flutter_opencv_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +24,8 @@ class OpencvService {
           throw Exception('Failed to download image: $url');
         }
       }));
+
+      debugPrint("Downloaded images path: ${tempDir.path}");
 
       // Pass the downloaded image paths to the loadDescriptors method
       final bool result = await Opencv().loadDescriptors(srcPath: tempDir.path);

@@ -11,9 +11,7 @@ import '/screens/information_screen/demo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Opencv().initialize(
-      newAppName:
-          "MatcherApp"); // Initialize the OpenCV plugin with your app name.
+  await Opencv().initialize(newAppName: "MatcherApp"); // Initialize the OpenCV plugin with your app name.
   await Firebase.initializeApp();
   runApp(MyApp());
 }

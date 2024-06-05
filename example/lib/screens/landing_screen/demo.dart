@@ -13,6 +13,15 @@ class GooeyEdgeDemo extends StatefulWidget {
 }
 
 class _GooeyEdgeDemoState extends State<GooeyEdgeDemo> {
+
+  @override
+  void initState() {
+    super.initState();
+    /// Download images from firebase
+    /// Load images from firebase
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
