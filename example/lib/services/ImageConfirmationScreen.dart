@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 
-class ImageConfirmationScreen extends StatelessWidget {
-  final String imageName;
-  final String imagePath;
+class ImageConfirmationScreen extends StatefulWidget {
+  // final String imageName = args?['imageName'] ?? 'No Image';
+  // final String imagePath = args?['imagePath'] ?? 'No Path';
+  // final String imageName;
+  // final String imagePath;
 
-  const ImageConfirmationScreen({Key? key, required this.imageName, required this.imagePath}) : super(key: key);
+  // const ImageConfirmationScreen({Key? key, required this.imageName, required this.imagePath}) : super(key: key);
+
+  @override
+  State<ImageConfirmationScreen> createState() => _ImageConfirmationScreenState();
+}
+
+class _ImageConfirmationScreenState extends State<ImageConfirmationScreen> {
+  late String imageName;
+  late String imagePath;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, String?>?;
+
+    if (args != null) {
+      imageName = args['imageName'] ?? 'No Image';
+      imagePath = args['imagePath'] ?? 'No Path';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +39,7 @@ class ImageConfirmationScreen extends StatelessWidget {
           Text(imageName), // Display the image name
           // Buttons for "Not Correct" and "Correct"
           ElevatedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushReplacementNamed(context, '/matching_screen'),
             child: Text('Not Correct'),
           ),
           ElevatedButton(

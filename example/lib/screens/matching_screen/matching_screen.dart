@@ -35,8 +35,61 @@ class _CameraScreenState extends State<CameraScreen> {
   int maxIdx = 4;
   bool imageClear = false;
   bool imageInFocus = true;
-  String? prediction = "hello";
+  String? prediction = null;
   int nullDetectionCount = 0;
+  int confidence = 0; /// Help to stabilize things
+
+  void gotoConfirmationScreen(String imageName) {
+    // Opencv().close();
+    // try {
+    //   controller!.stopImageStream();
+    // } catch (e) {
+    //   debugPrint("$e");
+    // }
+    // controller?.dispose();
+
+    Future.delayed(Duration(seconds: 3));
+    debugPrint("Sending: $imageName to information confirmation screen");
+    Navigator.popAndPushNamed(
+      context,
+      '/image_confirmation_screen',
+      arguments: {
+        'imageName': imageName,
+        'imagePath': imagePath,
+      },
+    );
+  }
+
+  void startCameraStream() {
+    controller!.startImageStream((imgFrame) async {
+      frame = imgFrame;
+      if (isDetecting == true && (frame.sensorExposureTime ?? -1) < 50000000) return;
+      if (mounted) {
+        setState(() {
+          isDetecting = true;
+        });
+      }
+      String? tempPrediction = await Opencv().findBestMatch(frame: frame);
+      await Future.delayed(Duration(milliseconds: 600));
+
+      if (mounted && tempPrediction != null && confidence >= 3) {
+        gotoConfirmationScreen(tempPrediction);
+      }
+
+      if (mounted) {
+        setState(() {
+          if(tempPrediction == prediction) {
+            confidence++;
+          } else {
+            confidence = 0;
+          }
+          prediction = tempPrediction;
+          nullDetectionCount = (prediction == null) ? nullDetectionCount + 1 : 0;
+          isDetecting = false;
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -51,44 +104,12 @@ class _CameraScreenState extends State<CameraScreen> {
       } catch (e) {
         return;
       }
-
+      // initializeCamController();
       controller?.initialize().then((_) {
         controller!.setExposureMode(ExposureMode.auto);
         controller!.setFocusMode(FocusMode.auto);
         debugPrint("Started image Stream");
-        controller!.startImageStream((imgFrame) async {
-          frame = imgFrame;
-          if (isDetecting == true && (frame.sensorExposureTime ?? -1) < 50000000) return;
-          if (mounted) {
-            setState(() {
-              isDetecting = true;
-            });
-          }
-          String? tempPrediction = await Opencv().findBestMatch(frame: frame);
-          await Future.delayed(Duration(milliseconds: 600));
-
-          if (mounted && tempPrediction != null) {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => ImageConfirmationScreen(
-            //       imageName:
-            //           tempPrediction, // Assuming tempPrediction is the image name
-            //       imagePath:
-            //           imagePath, // You'll need to provide the actual path
-            //     ),
-            //   ),
-            // );
-          }
-
-          if (mounted) {
-            setState(() {
-              prediction = tempPrediction;
-              nullDetectionCount = (prediction == null) ? nullDetectionCount + 1 : 0;
-              isDetecting = false;
-            });
-          }
-        });
+        startCameraStream();
       });
     });
   }
@@ -107,20 +128,41 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
+  // @override
+  // void deactivate() {
+  //   debugPrint("Deactivate called");
+  //   super.deactivate();
+  //   Opencv().close();
+  //   try {
+  //     controller!.stopImageStream();
+  //   } catch (e) {
+  //     debugPrint("$e");
+  //   }
+  //   // controller?.dispose();
+  // }
+
+  // @override
+  // void activate() {
+  //   debugPrint("Actiavte called");
+  //   super.activate();
+  //   startCameraStream();
+  // }
+
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    Opencv().close();
-    final CameraController? cameraController = controller;
-
-    // App state changed before we got the chance to initialize.
-    if (cameraController == null || !cameraController.value.isInitialized) {
-      return;
-    }
-
-    if (state == AppLifecycleState.inactive) {
-      cameraController.dispose();
-    } else if (state == AppLifecycleState.resumed) {}
-  }
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   debugPrint("Did change app life cycle state called");
+  //   Opencv().close();
+  //   final CameraController? cameraController = controller;
+  //
+  //   // App state changed before we got the chance to initialize.
+  //   if (cameraController == null || !cameraController.value.isInitialized) {
+  //     return;
+  //   }
+  //
+  //   if (state == AppLifecycleState.inactive) {
+  //     cameraController.dispose();
+  //   } else if (state == AppLifecycleState.resumed) {}
+  // }
 
   Widget changeOrientationMessage() {
     return nullDetectionCount > 3

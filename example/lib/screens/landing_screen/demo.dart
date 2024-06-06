@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gallery_app/services/local_storage_service.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'content_card.dart';
 import 'gooey_carousel.dart';
@@ -52,27 +53,30 @@ class _GooeyEdgeDemoState extends State<GooeyEdgeDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GooeyCarousel(
-        children: <Widget>[
-          ContentCard(
-            color: 'Red',
-            altColor: Color(0xFF4259B2),
-            title: "Wake up gently \nwith sounds of nature",
-            subtitle: 'Relax your mind and create inner peace with soothing sounds of nature.',
-          ),
-          ContentCard(
-            color: 'Yellow',
-            altColor: Color(0xFF904E93),
-            title: "Clear your mind \nwith breathing exercises",
-            subtitle: 'Melt your stresses and anxieties away with 50+ breathing exercises.',
-          ),
-          ContentCard(
-            color: 'Blue',
-            altColor: Color(0xFFFFB138),
-            title: "Fall asleep \nwith bedtime stories",
-            subtitle: 'Enjoy a restful night’s sleep with relaxing activities and calm bedtime stories.',
-          ),
-        ],
+      body: ModalProgressHUD(
+        inAsyncCall: isLoading,
+        child: GooeyCarousel(
+          children: <Widget>[
+            ContentCard(
+              color: 'Red',
+              altColor: Color(0xFF4259B2),
+              title: "Wake up gently \nwith sounds of nature",
+              subtitle: 'Relax your mind and create inner peace with soothing sounds of nature.',
+            ),
+            ContentCard(
+              color: 'Yellow',
+              altColor: Color(0xFF904E93),
+              title: "Clear your mind \nwith breathing exercises",
+              subtitle: 'Melt your stresses and anxieties away with 50+ breathing exercises.',
+            ),
+            ContentCard(
+              color: 'Blue',
+              altColor: Color(0xFFFFB138),
+              title: "Fall asleep \nwith bedtime stories",
+              subtitle: 'Enjoy a restful night’s sleep with relaxing activities and calm bedtime stories.',
+            ),
+          ],
+        ),
       ),
     );
   }
