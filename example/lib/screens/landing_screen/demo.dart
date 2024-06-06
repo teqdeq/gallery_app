@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gallery_app/services/local_storage_service.dart';
 
 import 'content_card.dart';
 import 'gooey_carousel.dart';
@@ -14,11 +15,37 @@ class GooeyEdgeDemo extends StatefulWidget {
 
 class _GooeyEdgeDemoState extends State<GooeyEdgeDemo> {
 
+  bool isLoading = false;
+  void startLoading() {
+    if(mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    } else {
+      isLoading = false;
+    }
+  }
+
+  void stopLoading() {
+    if(mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      isLoading = false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    Future(()async{
+      startLoading();
+      bool isSuccessfull = await LocalStorageService.initialize();
+      stopLoading();
+    });
     /// Download images from firebase
-    /// Load images from firebase
+    /// Load image descriptors from firebase
   }
 
 

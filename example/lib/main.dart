@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           // Define your app's theme here
           ),
-      initialRoute: '/', // Define the initial route
+      initialRoute: '/landing_screen', // Define the initial route
       routes: {
         '/': (context) => HomeScreen(),
         '/demo': (context) =>

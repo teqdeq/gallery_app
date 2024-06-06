@@ -58,8 +58,7 @@ class _CameraScreenState extends State<CameraScreen> {
         debugPrint("Started image Stream");
         controller!.startImageStream((imgFrame) async {
           frame = imgFrame;
-          if (isDetecting == true &&
-              (frame.sensorExposureTime ?? -1) < 50000000) return;
+          if (isDetecting == true && (frame.sensorExposureTime ?? -1) < 50000000) return;
           if (mounted) {
             setState(() {
               isDetecting = true;
@@ -69,24 +68,23 @@ class _CameraScreenState extends State<CameraScreen> {
           await Future.delayed(Duration(milliseconds: 600));
 
           if (mounted && tempPrediction != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ImageConfirmationScreen(
-                  imageName:
-                      tempPrediction, // Assuming tempPrediction is the image name
-                  imagePath:
-                      imagePath, // You'll need to provide the actual path
-                ),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ImageConfirmationScreen(
+            //       imageName:
+            //           tempPrediction, // Assuming tempPrediction is the image name
+            //       imagePath:
+            //           imagePath, // You'll need to provide the actual path
+            //     ),
+            //   ),
+            // );
           }
 
           if (mounted) {
             setState(() {
               prediction = tempPrediction;
-              nullDetectionCount =
-                  (prediction == null) ? nullDetectionCount + 1 : 0;
+              nullDetectionCount = (prediction == null) ? nullDetectionCount + 1 : 0;
               isDetecting = false;
             });
           }

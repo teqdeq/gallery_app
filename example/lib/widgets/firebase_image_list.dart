@@ -62,7 +62,7 @@ class _FirebaseImageListState extends State<FirebaseImageList> {
 
   Future<void> computeFeatures() async {
     final opencvService = OpencvService();
-    await opencvService.computeFeatures(imageUrls);
+    // await opencvService.computeFeatures(imageUrls);
   }
 
   @override
