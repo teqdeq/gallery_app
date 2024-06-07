@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_app/global_vars.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -54,6 +55,12 @@ class FirebaseService {
           final String? imageName = imageFirebaseData["image_name"];
 
           debugPrint("Retrieved image data: $artistName, $imageFilename, $imageName");
+
+          /// Store for future use
+          imageName2Url.addAll({
+            artistFirebaseData["artist_name"]??"" : imageFirebaseData["image_file"]??""
+          });
+
           allImagesData.add({
             "artist_id" : artistDoc.id,
             "artist_name" : artistFirebaseData["artist_name"]??"",

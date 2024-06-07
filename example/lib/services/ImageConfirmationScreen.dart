@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gallery_app/global_vars.dart';
 
 class ImageConfirmationScreen extends StatefulWidget {
   // final String imageName = args?['imageName'] ?? 'No Image';
@@ -33,22 +34,38 @@ class _ImageConfirmationScreenState extends State<ImageConfirmationScreen> {
       appBar: AppBar(
         title: Text('Confirm Image'),
       ),
-      body: Column(
-        children: [
-          // Display the image (placeholder for your image display logic)
-          Text(imageName), // Display the image name
-          // Buttons for "Not Correct" and "Correct"
-          ElevatedButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, '/matching_screen'),
-            child: Text('Not Correct'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Navigate to ArtisDetailScreen with the necessary image details
-            },
-            child: Text('Correct'),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    imageName2Url[imageName]??""
+                  ),
+                )
+              ),
+
+            ),
+            // Display the image (placeholder for your image display logic)
+            Text(imageName), // Display the image name
+            // Buttons for "Not Correct" and "Correct"
+            ElevatedButton(
+              onPressed: () => Navigator.pushReplacementNamed(context, '/matching_screen'),
+              child: Text('Not Correct'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to ArtisDetailScreen with the necessary image details
+              },
+              child: Text('Correct'),
+            ),
+          ],
+        ),
       ),
     );
   }

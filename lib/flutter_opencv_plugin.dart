@@ -738,7 +738,7 @@ class Opencv {
     // await getStoragePermission();
     var status = await Permission.manageExternalStorage.isGranted;
     if (status == false) {
-      Permission.manageExternalStorage.request();
+      bool? permissionStatus = (await Permission.manageExternalStorage.request()).isGranted;
     }
     appName = newAppName;
     mainReceivePort = ReceivePort();
@@ -786,34 +786,37 @@ class Opencv {
   }
 
   static Future<String> getRootDirectory({String? dirName}) async {
-    if (dirName == null) dirName = appName;
+    dirName ??= appName;
     var dir;
 
     /// Try requesting for external storage permissions
     bool result = await Permission.storage.isGranted;
     if (!result) {
-      bool status = await Permission.storage.request().isGranted;
+      bool status = (await Permission.storage.request()).isGranted;
       if (status) {
+        debugPrint("External storage permission GRANTED");
         try {
           dir = Directory("/storage/emulated/0/Documents");
         } catch (e) {
           dir = Directory("/storage/emulated/0/Documents");
         }
       } else {
+        debugPrint("External storage permission NOT GRANTED");
         var dirs = await getExternalStorageDirectories();
         for (var dir in dirs!) {
-          debugPrint("${dir.path}");
+          debugPrint("External storage directories: ${dir.path}");
         }
         dir = dirs[0];
       }
     } else {
       if (Directory("/storage/emulated/0/Documents").existsSync()) {
         debugPrint("Device storage directory already exists");
-      }
-      try {
-        dir = Directory("/storage/emulated/0/Documents");
-      } catch (e) {
-        dir = Directory("/storage/emulated/0/Documents");
+      } else {
+        try {
+          dir = Directory("/storage/emulated/0/Documents");
+        } catch (e) {
+          dir = Directory("/storage/emulated/0/Documents");
+        }
       }
     }
 
