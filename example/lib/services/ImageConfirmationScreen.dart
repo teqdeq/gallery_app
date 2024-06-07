@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gallery_app/global_vars.dart';
 
@@ -44,8 +46,8 @@ class _ImageConfirmationScreenState extends State<ImageConfirmationScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(
-                    imageName2Url[imageName]??""
+                  image: FileImage(
+                    File(imageName2Path[imageName]??"")
                   ),
                 )
               ),

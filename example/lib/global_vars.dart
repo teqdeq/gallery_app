@@ -1,2 +1,2 @@
 
-Map<String, String> imageName2Url = {};
+Map<String, String> imageName2Path = {};

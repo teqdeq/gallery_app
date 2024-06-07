@@ -56,10 +56,6 @@ class FirebaseService {
 
           debugPrint("Retrieved image data: $artistName, $imageFilename, $imageName");
 
-          /// Store for future use
-          imageName2Url.addAll({
-            artistFirebaseData["artist_name"]??"" : imageFirebaseData["image_file"]??""
-          });
 
           allImagesData.add({
             "artist_id" : artistDoc.id,

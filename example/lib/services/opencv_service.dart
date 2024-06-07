@@ -4,6 +4,8 @@ import 'package:flutter_opencv_plugin/flutter_opencv_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../global_vars.dart';
+
 class OpencvService {
   Future<bool> computeFeatures(List<Map<String, String>> imagesData) async {
     try {
@@ -25,6 +27,12 @@ class OpencvService {
           final filename = imageData["artist_name"]! + "." + ext;
           debugPrint("***Downloaded $filename");
           final filePath = '${tempDir.path}/$filename';
+
+          /// Store for future use
+          imageName2Path.addAll({
+            imageData["artist_name"]??"" : filePath
+          });
+
           final file = File(filePath);
           await file.writeAsBytes(bytes);
           imagePaths.add(filePath);
